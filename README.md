@@ -23,7 +23,13 @@ Usage of ./revealit:
 ./revealit --language=ruby
 ```
 
-## Limitations
-It currently supports only Ruby and Gemfile. Thanks to [The Ruby Toolbox](https://www.ruby-toolbox.com/) for allowing a well-organized categories file download.
+## Support
+### Ruby
+Thanks to [The Ruby Toolbox](https://www.ruby-toolbox.com/) for allowing the download of a [JSON](https://github.com/rubytoolbox/catalog) file containing all their data.
 
-As Ruby is my primary language, I've just implemented the parse and identification for it. Feel free to add support to other languages.
+
+## Limitations
+It currently supports only Ruby and Gemfile.
+
+As Ruby is my primary language, I've just implemented the parse and identification for it. Feel free to add support for other languages.
+
