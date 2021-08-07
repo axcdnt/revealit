@@ -2,27 +2,26 @@ package main
 
 import (
 	"flag"
-	"fmt"
 	"log"
 	"os"
 
+	"github.com/axcdnt/revealit/revealer"
 	"github.com/axcdnt/revealit/ruby"
-	"github.com/axcdnt/revealit/utils"
 )
 
 func main() {
-	wd, _ := os.Getwd()
+	path, _ := os.Getwd()
 	language := flag.String("language", "", "the project's main language")
 	flag.Parse()
 
-	runner := newRunner(*language, wd)
-	result := runner.Parse()
-	runner.PrettyPrint(result)
+	runner := newRunner(*language, path)
+	runner.Parse()
+	runner.PrettyPrint()
 }
 
-func newRunner(language, wd string) utils.Revealer {
+func newRunner(language, path string) revealer.Revealer {
 	if language == "ruby" {
-		return &ruby.RubyRunner{Path: fmt.Sprintf("%s/%s", wd, "Gemfile")}
+		return ruby.New(path)
 	} else {
 		log.Fatal("language parser not implemented")
 	}
