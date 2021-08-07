@@ -24,20 +24,18 @@ type Categories struct {
 	CategoryGroups []struct {
 		Categories []struct {
 			Name        string   `json:"name"`
-			Description string   `json:"description"`
 			Projects    []string `json:"projects"`
-			Permalink   string   `json:"permalink"`
 		} `json:"categories"`
-		Description interface{} `json:"description"`
 		Name        string      `json:"name"`
-		Permalink   string      `json:"permalink"`
 	} `json:"category_groups"`
 }
 
+// RubyRunner is the main struct used by PrettyPrint()
 type RubyRunner struct {
 	Path string
 	dependencyFile string
 	categories map[string][]string
+	total int
 }
 
 func New(path string) *RubyRunner {
@@ -58,11 +56,13 @@ func (r *RubyRunner) Parse() {
 	allCategories := parseCategories()
 	gemCategories := map[string][]string{}
 	scanner := bufio.NewScanner(f)
+
 	for scanner.Scan() {
 		line := strings.Trim(scanner.Text(), " ")
 		if strings.HasPrefix(line, "gem") {
 			gem := gem(line)
 			found := false
+			r.total++
 			for _, group := range allCategories.CategoryGroups {
 				for _, category := range group.Categories {
 					if isCategorized(gem, category.Projects) {
@@ -90,6 +90,7 @@ func isCategorized(gem string, projects []string) bool {
 }
 
 func (r *RubyRunner) PrettyPrint() {
+	fmt.Printf("Total: %d\n\n", r.total)
 	for category, gems := range r.categories {
 		fmt.Printf("%s(%d) \n\t%v\n", category, len(gems), gems)
 	}
